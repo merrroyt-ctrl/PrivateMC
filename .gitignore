@@ -1,0 +1,11 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+build/
+dist/
+*.log
+.env
+server/
+bin-java/
+eula.txt

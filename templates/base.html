@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block t %}PrivateMC Server Information{% endblock %}</title><link rel="stylesheet" href="/static/style.css"><link rel="icon" type="image/png" href="/favicon.png"></head>
+<body class="{% block bc %}{% endblock %}"><header><a href="/" class="brand">⛏ Serverstatus</a><nav>{% block nav %}<a href="/admin">Admin</a>{% endblock %}</nav></header>
+<main>{% block c %}{% endblock %}</main>
+<!-- Custom Dialog -->
+<div id="dialog_overlay" class="dialog-overlay" hidden>
+    <div class="dialog-box" role="dialog" aria-modal="true"
+         aria-labelledby="dialog_title">
+        <div class="dialog-icon" id="dialog_icon">✦</div>
+
+        <h2 id="dialog_title">PrivateMC</h2>
+        <p id="dialog_message"></p>
+
+        <form id="dialog_form">
+            <input id="dialog_input" type="text"
+                   autocomplete="off" hidden>
+
+            <div class="dialog-actions">
+                <button type="button" id="dialog_cancel">
+                    Abbrechen
+                </button>
+                <button type="submit" id="dialog_ok" class="ok">
+                    Bestätigen
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="toast" hidden></div><script src="/static/common.js"></script>{% block s %}{% endblock %}</body></html>

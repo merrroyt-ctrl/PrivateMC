@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block nav %}{% endblock %}
+{% block c %}
+<form method="post" class="card login">
+  <h1>Anmelden</h1>
+  {% if err %}<p class="off">{{ err }}</p>{% endif %}
+
+  <div class="form-row">
+    <label for="u">Benutzername</label>
+    <input id="u" name="u" class="login-input" autocomplete="username" required autofocus>
+  </div>
+  
+  <div class="form-row">
+    <label for="p">Passwort</label>
+    <input id="p" name="p" type="password" class="login-input" autocomplete="current-password" required>
+  </div>
+
+  <button class="ok">Anmelden</button>
+</form>
+{% endblock %}

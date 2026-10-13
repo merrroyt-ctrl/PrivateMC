@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block c %}
+<section class="hero">
+  <p id="st" class="badge wait">Wird geprüft</p>
+  <h1 id="motd">Minecraft Server</h1>
+  <div class="addr"><code id="addr">{{ addr }}</code><button id="cp">Adresse kopieren</button></div>
+  <p id="note" class="notice" hidden></p>
+</section>
+<dl class="facts">
+  <div><dt>Spieler online</dt><dd id="pl">–</dd></div>
+  <div><dt>Version</dt><dd id="ver">–</dd></div>
+  <div><dt>Antwortzeit</dt><dd id="ping">–</dd></div>
+  <div><dt>Läuft seit</dt><dd id="up">–</dd></div>
+</dl>
+<section><h2>Server-Auslastung</h2>
+<div class="res">
+  <div class="card"><div class="rh"><span>Prozessor (CPU)</span><b id="cpu_t">–</b></div><div class="bar"><i id="cpu_b"></i></div><div class="spark" id="cpu_s"></div><p class="hint" id="cpu_h"></p></div>
+  <div class="card"><div class="rh"><span>Arbeitsspeicher (RAM)</span><b id="ram_t">–</b></div><div class="bar"><i id="ram_b"></i></div><div class="spark" id="ram_s"></div><p class="hint" id="ram_h"></p></div>
+</div></section>
+<section><h2>Wer spielt gerade</h2><ul id="names" class="names"></ul></section>
+<section><h2>So kommst du auf den Server</h2>
+<ol><li>Minecraft Java Edition starten.</li><li>Mehrspieler öffnen und „Server hinzufügen“ wählen.</li><li>Die Adresse oben einfügen und beitreten.</li></ol></section>
+{% endblock %}
+{% block s %}<script src="/static/index.js"></script>{% endblock %}

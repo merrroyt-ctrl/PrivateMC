@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% block t %}PrivateMC Admin{% endblock %}
+{% block bc %}wide{% endblock %}
+{% block nav %}<a href="/">Öffentliche Seite</a><a href="/logout">Abmelden</a>{% endblock %}
+{% block c %}
+<div class="shell">
+<nav class="side">
+  <a href="#overview" data-t="overview">🏠 Übersicht</a>
+  <a href="#console" data-t="console">💬 Konsole</a>
+  <a href="#players" data-t="players">👥 Spieler</a>
+  <a href="#plugins" data-t="plugins">🧩 Plugins</a>
+  <a href="#settings" data-t="settings">⚙️ Einstellungen</a>
+  <a href="#software" data-t="software">🔧 Version &amp; RAM</a>
+  <a href="#world" data-t="world">🌍 Welt</a>
+  <a href="#backups" data-t="backups">💾 Backups</a>
+</nav>
+<div>
+
+<section class="pg" id="p-overview">
+  <div class="card status">
+    <div class="srow"><span id="dot" class="dot wait"></span><div><h1 id="st">…</h1><p id="stsub" class="hint">&nbsp;</p></div></div>
+    <div class="addr"><code id="addr">{{ addr }}</code><button id="cp">Adresse kopieren</button></div>
+    <div class="row">
+      <button id="b_start" class="ok big" data-p="start" hidden>▶ Server starten</button>
+      <button id="b_restart" class="warn big" data-p="restart" hidden>⟳ Neu starten</button>
+      <button id="b_stop" class="danger big" data-p="stop" hidden>■ Stoppen</button>
+    </div>
+    <p id="err" class="notice bad" hidden></p>
+  </div>
+  <dl class="facts">
+    <div><dt>Spieler online</dt><dd id="pl">–</dd></div>
+    <div><dt>Version</dt><dd id="ver">–</dd></div>
+    <div><dt>Antwortzeit</dt><dd id="ping">–</dd></div>
+    <div><dt>Läuft seit</dt><dd id="up">–</dd></div>
+  </dl>
+  <div class="res">
+    <div class="card"><div class="rh"><span>Prozessor (CPU)</span><b id="cpu_t">–</b></div><div class="bar"><i id="cpu_b"></i></div><div class="spark" id="cpu_s"></div><p class="hint" id="cpu_h"></p></div>
+    <div class="card"><div class="rh"><span>Arbeitsspeicher (RAM)</span><b id="ram_t">–</b></div><div class="bar"><i id="ram_b"></i></div><div class="spark" id="ram_s"></div><p class="hint" id="ram_h"></p></div>
+  </div>
+  <div class="card"><h2>Wer spielt gerade?</h2><ul id="names" class="names"></ul></div>
+</section>
+
+<section class="pg" id="p-console" hidden>
+  <h1>Konsole</h1>
+  <p class="hint">Hier siehst du, was der Server gerade macht. Befehle gibst du ohne „/“ ein, z. B. <code>say Hallo</code>.</p>
+  <div class="card">
+    <pre id="log"></pre>
+    <form id="cf" class="row"><input id="cmd" placeholder="Befehl eingeben, z. B. say Hallo" autocomplete="off"><button class="ok">Senden</button></form>
+    <div class="row">
+      <button class="sm" data-q="say">📣 Nachricht an alle</button>
+      <button class="sm" data-q="time set day">☀️ Tag machen</button>
+      <button class="sm" data-q="weather clear">🌤 Wetter klar</button>
+      <button class="sm" data-q="save-all">💾 Welt speichern</button>
+      <button class="sm" data-q="list">👥 Wer ist online?</button>
+    </div>
+  </div>
+</section>
+
+<section class="pg" id="p-players" hidden>
+  <h1>Spieler</h1>
+  <p class="hint">Gib einen Spielernamen ein und wähle, was passieren soll. Der Server muss dafür laufen.</p>
+  <div class="card">
+    <input id="pn" placeholder="Spielername, z. B. Steve" maxlength="16" autocomplete="off">
+    <div class="row">
+      <button class="sm" data-a="whitelist_add">➕ Auf die Whitelist</button>
+      <button class="sm" data-a="op">⭐ Zum Operator machen</button>
+      <button class="sm danger" data-a="ban">⛔ Bannen</button>
+    </div>
+  </div>
+  <div class="cols">
+    <div class="card"><h2>Gerade online</h2><ul class="list" id="l_on"></ul></div>
+    <div class="card"><h2>Whitelist</h2><p class="hint">Nur diese Spieler dürfen beitreten, wenn die Whitelist in den Einstellungen aktiv ist.</p><ul class="list" id="l_wl"></ul></div>
+    <div class="card"><h2>Operatoren</h2><p class="hint">Operatoren dürfen Server-Befehle nutzen.</p><ul class="list" id="l_op"></ul></div>
+    <div class="card"><h2>Gebannt</h2><ul class="list" id="l_ban"></ul></div>
+  </div>
+</section>
+
+<section class="pg" id="p-plugins" hidden>
+  <h1>Plugins</h1>
+  <p class="hint">Dein Server läuft mit Paper. Es funktionieren nur Paper-/Spigot-/Bukkit-Plugins als <b>.jar</b>-Datei, keine Fabric- oder Forge-Mods. Plugins findest du z. B. auf <a href="https://hangar.papermc.io" target="_blank" rel="noopener">hangar.papermc.io</a> oder <a href="https://modrinth.com/plugins" target="_blank" rel="noopener">modrinth.com</a>.</p>
+  <label class="drop" id="drop">📦 <b>.jar-Datei hierher ziehen</b> oder klicken zum Auswählen<input type="file" id="pf" accept=".jar" multiple hidden></label>
+  <div id="upw" hidden><p class="hint">Lade hoch: <span id="upn"></span></p><div class="bar"><i id="upb"></i></div></div>
+  <div class="card"><h2>Installierte Plugins</h2><ul class="list" id="l_pl"></ul>
+    <p class="hint">Nach dem Hochladen oder Löschen musst du den Server <b>neu starten</b>, damit es wirkt.</p>
+    <div class="row"><button data-p="restart" class="warn">⟳ Server jetzt neu starten</button></div></div>
+</section>
+
+<section class="pg" id="p-settings" hidden>
+  <h1>Einstellungen</h1>
+  <p class="hint">Die wichtigsten Server-Einstellungen. Änderungen gelten nach einem Neustart.</p>
+  <div class="card"><div id="setf"></div>
+    <div class="row"><button id="set_save" class="ok">Speichern</button><button id="set_rs" class="warn">Speichern &amp; neu starten</button></div></div>
+  <details class="card"><summary>Für Fortgeschrittene: server.properties direkt bearbeiten</summary>
+    <p class="hint">Jede Zeile muss <code>name=wert</code> lauten. Zeilen mit # sind Kommentare.</p>
+    <textarea id="props" spellcheck="false"></textarea>
+    <div class="row"><button id="pr_save">Datei speichern</button></div></details>
+</section>
+
+
+<section class="pg" id="p-software" hidden>
+  <h1>Version &amp; RAM</h1>
+
+  <div class="card">
+    <h2>Minecraft-Version</h2>
+    <p>Aktuell: <b id="ver_cur">…</b></p>
+    <p class="hint">
+      Die Liste wird live von papermc.io geladen, du kannst nur existierende Versionen wählen.
+      Vor dem Wechsel wird automatisch ein Backup erstellt.
+      Zurück auf eine ältere Version geht nicht, weil die Welt dabei kaputtgehen kann.
+    </p>
+    <div class="row">
+      <select id="ver_sel"></select>
+      <button id="ver_btn" class="ok">Version wechseln</button>
+    </div>
+    <p class="hint" id="ver_hint"></p>
+  </div>
+
+  <div class="card">
+    <h2>Server-Icon</h2>
+    <p class="hint">
+      Dieses Bild wird in der Minecraft-Serverliste angezeigt.
+      Es wird automatisch auf 64 × 64 Pixel angepasst.
+    </p>
+
+    <div class="row" style="align-items:center;gap:20px">
+      <img
+        id="server_icon_preview"
+        alt="Aktuelles Server-Icon"
+        width="64"
+        height="64"
+        style="image-rendering:pixelated;border-radius:8px;border:1px solid var(--ln);object-fit:contain"
+      >
+
+      <div>
+        <p id="server_icon_status" class="hint">Icon wird geladen …</p>
+        <label class="drop" id="icon_drop">
+          🖼️ <b>Eigenes Bild auswählen</b>
+          <input
+            type="file"
+            id="server_icon_file"
+            accept="image/png,image/jpeg,image/webp"
+            hidden
+          >
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <button type="button" id="server_icon_upload" class="ok" disabled>
+        Icon hochladen
+      </button>
+      <button type="button" id="server_icon_reset" class="warn">
+        Standard-Icon wiederherstellen
+      </button>
+    </div>
+
+    <p class="hint">
+      Gespeichert als <code>server/server-icon.png</code>.
+      Nach einer Änderung musst du den Minecraft-Server neu starten.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Arbeitsspeicher (RAM)</h2>
+    <p>Dem Server zugewiesen: <b id="ram_v">…</b></p>
+    <input type="range" id="ram_r" min="1" max="2" step="1" value="1">
+    <p class="hint" id="ram_i"></p>
+    <div class="row">
+      <button id="ram_btn" class="ok">RAM ändern &amp; neu starten</button>
+    </div>
+  </div>
+</section>
+
+
+<section class="pg" id="p-world" hidden>
+  <h1>Welt</h1>
+  <div class="card"><h2>Neue Welt erstellen</h2>
+    <p class="hint">Die aktuelle Welt wird gelöscht und der Server erzeugt eine komplett neue. Vorher wird automatisch ein Backup gemacht, mit dem du die alte Welt wiederherstellen kannst.</p>
+    <label>Seed (optional, leer = zufällig)<input id="seed" maxlength="40" placeholder="z. B. 12345 oder Hallo"></label>
+    <div class="row"><button id="w_btn" class="danger">🌍 Neue Welt erstellen</button></div></div>
+</section>
+
+<section class="pg" id="p-backups" hidden>
+  <h1>Backups</h1>
+  <p class="hint">Ein Backup ist eine Sicherungskopie deiner Welt. Mit „Wiederherstellen“ kommst du zu diesem Stand zurück (der aktuelle Stand wird vorher automatisch gesichert).</p>
+  <div class="card"><div class="row"><button id="bk" class="ok">💾 Jetzt Backup erstellen</button></div><ul class="list" id="bl"></ul></div>
+</section>
+
+</div></div>
+{% endblock %}
+{% block s %}<script src="/static/admin.js"></script>{% endblock %}
